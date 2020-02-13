@@ -16,7 +16,16 @@ dispatch:
         - name: service
           value: OS6981162467.CreateGuide
         - name: intent
-          value: ActivityGuide
+          type: string_array
+          value:
+            - ActivityGuide
+            - InputDatetime
+            - InputSomething
+            - InputThreeW
+            - InputTimeSomething
+            - InputAddress
+            - InputMember
+            - EndGuide
       flow: flow_activity_ai_flow
 flows:
   - flow_activity_ai_flow:
