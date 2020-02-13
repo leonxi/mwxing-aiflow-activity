@@ -44,31 +44,31 @@ flows:
             - xfy_iat_end
             - markup_nlp_end
           task:
-            - name: 数据清洗与转换 整合迅飞语音和人名识别的结果
-              trigger: acj
+            name: 数据清洗与转换 整合迅飞语音和人名识别的结果
+            trigger: acj
+            parameters:
+              - ruleid;MWXING_XUNFEI_C0005_V1_1
+              - datasource;$.parent.outputs
+            outputs:
+              - cleaned
+            next:
+              name: 中文拼音转换参与人姓名
+              trigger: pin
               parameters:
-                - ruleid;MWXING_XUNFEI_C0005_V1_1
-                - datasource;$.parent.outputs
+                - type;IN_DATA_COVERAGE
+                - data;$.parent.outputs.cleaned
+                - text-paths;json-path.announceContent.mwxing.content..parameters.fs[*].n
               outputs:
-                - cleaned
+                pinyin
               next:
-                name: 中文拼音转换参与人姓名
-                trigger: pin
-                parameters:
-                  - type;IN_DATA_COVERAGE
-                  - data;$.parent.outputs.cleaned
-                  - text-paths;json-path.announceContent.mwxing.content..parameters.fs[*].n
-                outputs:
-                  pinyin
-                next:
-                  - name: 冥王星通知服务
-                    trigger: ann
-                    parameters:
-                      - announceTo;$.parent.outputs.pinyin.announceTo
-                      - announceType;$.parent.outputs.pinyin.announceType
-                      - announceContent;$.parent.outputs.pinyin.announceContent
-                    outputs:
-                      - result
+                - name: 冥王星通知服务
+                  trigger: ann
+                  parameters:
+                    - announceTo;$.parent.outputs.pinyin.announceTo
+                    - announceType;$.parent.outputs.pinyin.announceType
+                    - announceContent;$.parent.outputs.pinyin.announceContent
+                  outputs:
+                    - result
         - name: 取得文本中的中文人名
           when:
             d$and:
