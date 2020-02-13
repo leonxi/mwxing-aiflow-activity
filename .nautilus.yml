@@ -501,14 +501,6 @@ executors:
                 }
               };
 
-              // output.content['3'] = {
-              //   processor: 'S',
-              //   option: 'S.P',
-              //   parameters: {
-              //     t: 'EE_AG_CONFIRM'      // 是否创建, 请确认
-              //   }
-              // };
-
               delete servercontext['activity'];
             }
           }
