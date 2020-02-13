@@ -63,23 +63,23 @@ flows:
         - name: 取得文本中的中文人名
           when:
             d$and:
-              - d$.parent.parameters.xunfeiyun:
+              - d$.parent.parameters.event.output.payload.xunfeiyun:
                   data:
                     d$exists: true
-              - d$.parent.parameters.xunfeiyun.data:
+              - d$.parent.parameters.event.output.payload.xunfeiyun.data:
                   d$length:
                     d$gt: 0
               - d$or:
-                  - d$.parent.parameters.xunfeiyun.data[0]:
+                  - d$.parent.parameters.event.output.payload.xunfeiyun.data[0]:
                       text:
                         d$exists: true
-                  - d$.parent.parameters.xunfeiyun.data[0].intent:
+                  - d$.parent.parameters.event.output.payload.xunfeiyun.data[0].intent:
                       text:
                         d$exists: true
           trigger: nlp
           parameters:
             - function;NlpAnalysis
-            - text;$.parent.parameters.xunfeiyun.data[0].text;$.parent.parameters.xunfeiyun.data[0].intent.text
+            - text;$.parent.parameters.event.output.payload.xunfeiyun.data[0].text;$.parent.parameters.event.output.payload.xunfeiyun.data[0].intent.text
           outputs:
             - function
             - text
@@ -91,23 +91,23 @@ flows:
         - name: 标注短句的语义标签
           when:
             d$and:
-              - d$.parent.parameters.xunfeiyun:
+              - d$.parent.parameters.event.output.payload.xunfeiyun:
                   data:
                     d$exists: true
-              - d$.parent.parameters.xunfeiyun.data:
+              - d$.parent.parameters.event.output.payload.xunfeiyun.data:
                   d$length:
                     d$gt: 0
               - d$or:
-                  - d$.parent.parameters.xunfeiyun.data[0]:
+                  - d$.parent.parameters.event.output.payload.xunfeiyun.data[0]:
                       text:
                         d$exists: true
-                  - d$.parent.parameters.xunfeiyun.data[0].intent:
+                  - d$.parent.parameters.event.output.payload.xunfeiyun.data[0].intent:
                       text:
                         d$exists: true
           trigger: nlp
           parameters:
             - function;MarkupAnalysis
-            - text;$.parent.parameters.xunfeiyun.data[0].text;$.parent.parameters.xunfeiyun.data[0].intent.text
+            - text;$.parent.parameters.event.output.payload.xunfeiyun.data[0].text;$.parent.parameters.event.output.payload.xunfeiyun.data[0].intent.text
           outputs:
             - function
             - text
@@ -119,17 +119,17 @@ flows:
         - name: 标注短句的语义标签空字符串
           when:
             d$or:
-              - d$.parent.parameters.xunfeiyun:
+              - d$.parent.parameters.event.output.payload.xunfeiyun:
                   data:
                     d$exists: false
-              - d$.parent.parameters.xunfeiyun.data:
+              - d$.parent.parameters.event.output.payload.xunfeiyun.data:
                   d$length:
                     d$lte: 0
               - d$and:
-                  - d$.parent.parameters.xunfeiyun.data[0]:
+                  - d$.parent.parameters.event.output.payload.xunfeiyun.data[0]:
                       text:
                         d$exists: false
-                  - d$.parent.parameters.xunfeiyun.data[0].intent:
+                  - d$.parent.parameters.event.output.payload.xunfeiyun.data[0].intent:
                       text:
                         d$exists: false
           trigger: nlp
@@ -147,17 +147,17 @@ flows:
         - name: 取得文本中的中文人名
           when:
             d$or:
-              - d$.parent.parameters.xunfeiyun:
+              - d$.parent.parameters.event.output.payload.xunfeiyun:
                   data:
                     d$exists: false
-                d$.parent.parameters.xunfeiyun.data:
+                d$.parent.parameters.event.output.payload.xunfeiyun.data:
                   d$length:
                     d$lte: 0
                 d$and:
-                  - d$.parent.parameters.xunfeiyun.data[0]:
+                  - d$.parent.parameters.event.output.payload.xunfeiyun.data[0]:
                       text:
                         d$exists: false
-                    d$.parent.parameters.xunfeiyun.data[0].intent:
+                    d$.parent.parameters.event.output.payload.xunfeiyun.data[0].intent:
                       text:
                         d$exists: false
           trigger: nlp
@@ -174,12 +174,12 @@ flows:
                 - xfy_iat_end
         - name: 数据清洗与转换 迅飞返回结果格式整理
           when:
-            d$.parent.parameters.xunfeiyun:
+            d$.parent.parameters.event.output.payload.xunfeiyun:
               code:
                 d$eq: "0"
           trigger: translate_activity_ai_data
           parameters:
-            - datasource;$.parent.parameters.xunfeiyun
+            - datasource;$.parent.parameters.event.output.payload.xunfeiyun
           outputs:
             - cleaned
           next:
