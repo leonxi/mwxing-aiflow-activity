@@ -52,23 +52,23 @@ flows:
             outputs:
               - cleaned
             next:
-              name: 中文拼音转换参与人姓名
-              trigger: pin
-              parameters:
-                - type;IN_DATA_COVERAGE
-                - data;$.parent.outputs.cleaned
-                - text-paths;json-path.announceContent.mwxing.content..parameters.fs[*].n
-              outputs:
-                pinyin
-              next:
-                - name: 冥王星通知服务
-                  trigger: ann
-                  parameters:
-                    - announceTo;$.parent.outputs.pinyin.announceTo
-                    - announceType;$.parent.outputs.pinyin.announceType
-                    - announceContent;$.parent.outputs.pinyin.announceContent
-                  outputs:
-                    - result
+              - name: 中文拼音转换参与人姓名
+                trigger: pin
+                parameters:
+                  - type;IN_DATA_COVERAGE
+                  - data;$.parent.outputs.cleaned
+                  - text-paths;json-path.announceContent.mwxing.content..parameters.fs[*].n
+                outputs:
+                  pinyin
+                next:
+                  - name: 冥王星通知服务
+                    trigger: ann
+                    parameters:
+                      - announceTo;$.parent.outputs.pinyin.announceTo
+                      - announceType;$.parent.outputs.pinyin.announceType
+                      - announceContent;$.parent.outputs.pinyin.announceContent
+                    outputs:
+                      - result
         - name: 取得文本中的中文人名
           when:
             d$and:
@@ -122,9 +122,9 @@ flows:
             - text
             - parsed
           next:
-            type: forward
-            forward_with:
-              - markup_nlp_end
+            - type: forward
+              forward_with:
+                - markup_nlp_end
         - name: 标注短句的语义标签空字符串
           when:
             d$or:
